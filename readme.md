@@ -23,15 +23,6 @@
 - [Php](https://www.php.net/docs.php)
 - [Laravel](https://laravel.com/)
 
-<h3>Starting</h3>
-
-How to start your project
-
-```bash
-cd project-name
-npm some-command-to-run
-```
-
 <h2 id="colab">🤝 Collaborators</h2>
 
 Special thank you for all people that contributed for this project.
