@@ -9,7 +9,7 @@ class SeasonsController extends Controller
 {
     public function index(Series $series)
     {
-        $seasons = $series->seasons()->with('seasons')->get();
+        $seasons = $series->seasons()->get();
 
         return view('seasons.index')->with('seasons', $seasons)->with('series', $series);
     }
