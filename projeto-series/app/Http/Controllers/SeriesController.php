@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\SeriesCreated;
 use App\Http\Requests\SeriesFormRequest;
+use App\Jobs\DestroyImageSerie;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
@@ -64,9 +65,9 @@ class SeriesController extends Controller
     }
 
     public function destroy(Series $series, Request $request){
-
+        
         if (!is_null($series->cover)) {
-            Storage::disk('public')->delete($series->cover);
+            DestroyImageSerie::dispatch($series->cover);
         }
 
         $series->delete();

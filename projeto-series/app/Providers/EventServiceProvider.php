@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\SeriesCreated;
+use App\Jobs\DestroyImageSerie;
 use App\Listeners\EmailUsersAboutSeriesCreated;
 use App\Listeners\LogSeriesCreated;
 use Illuminate\Auth\Events\Registered;
