@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
+use App\Events\SeriesCreated as EventsSeriesCreated;
 use App\Mail\SeriesCreated;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class EmaiUsersAboutSeriesCreated
+class EmailUsersAboutSeriesCreated implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -26,13 +26,13 @@ class EmaiUsersAboutSeriesCreated
      * @param  object  $event
      * @return void
      */
-    public function handle(SeriesCreated $event)
+    public function handle(EventsSeriesCreated $event)
     {
         $emails = User::pluck('email');
 
         foreach ($emails as $index => $email) {
             $emailMessage = new SeriesCreated(
-                $event->seriesNome,
+                $event->seriesName,
                 $event->seriesId,
                 $event->seriesSeasonsQty,
                 $event->seriesEpisodesPerSeason

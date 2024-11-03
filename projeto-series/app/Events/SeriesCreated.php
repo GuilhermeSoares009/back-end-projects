@@ -20,7 +20,7 @@ class SeriesCreated
      * @return void
      */
     public function __construct(
-        public readonly string $seriesNome,
+        public readonly string $seriesName,
         public readonly int $seriesId,
         public readonly int $seriesSeasonsQty,
         public readonly int $seriesEpisodesPerSeason,

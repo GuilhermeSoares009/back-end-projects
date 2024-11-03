@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SeriesCreated as EventsSeriesCreated;
+use App\Events\SeriesCreated;
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
@@ -35,7 +35,7 @@ class SeriesController extends Controller
 
         $serie = $this->repository->add($request);
 
-        EventsSeriesCreated::dispatch(
+        SeriesCreated::dispatch(
             $serie->nome,
             $serie->id,
             $request->seasonsQty,
