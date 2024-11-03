@@ -7,6 +7,7 @@ use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SeriesController extends Controller
 {
@@ -63,6 +64,10 @@ class SeriesController extends Controller
     }
 
     public function destroy(Series $series, Request $request){
+
+        if (!is_null($series->cover)) {
+            Storage::disk('public')->delete($series->cover);
+        }
 
         $series->delete();
 
