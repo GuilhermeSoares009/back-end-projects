@@ -26,7 +26,7 @@ class EmaiUsersAboutSeriesCreated
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(SeriesCreated $event)
     {
         $emails = User::pluck('email');
 
