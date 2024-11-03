@@ -37,18 +37,19 @@ class SeriesController extends Controller
 
         $serie = $this->repository->add($request);
 
-
-
         $emails = User::pluck('email');
 
-        foreach ($emails as $key => $email) {
+        foreach ($emails as $index => $email) {
             $emailMessage = new SeriesCreated(
                 $serie->nome,
                 $serie->id,
                 $request->seasonsQty,
                 $request->episodesPerSeason
             );
-            Mail::to($email)->queue($emailMessage);
+
+            $when = now()->addSeconds($index * 5);
+
+            Mail::to($email)->later($when, $emailMessage);
         }
 
 
