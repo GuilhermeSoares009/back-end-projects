@@ -24,7 +24,9 @@ class SeriesFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => ['required','min:3'],
+            'nome' => ['required', 'min:3'],
+            'cover' => ['nullable', 'file', 'mimes:jpeg,png,jpg', 'max:2048'], // Validação do arquivo
         ];
     }
+    
 }
