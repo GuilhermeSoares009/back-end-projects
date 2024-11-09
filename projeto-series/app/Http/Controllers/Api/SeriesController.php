@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
+use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
+
+    public function __construct(private SeriesRepository $seriesRepository) 
+    {
+    }
 
 
     public function index()
@@ -19,19 +24,7 @@ class SeriesController extends Controller
     public function store(SeriesFormRequest $request)
     {
 
-        $coverPath = $request->hasFile('cover')
-            ? $request->file('cover')->store('series_cover', 'public')
-            : null;
-
-            $data = [
-                'nome' => $request->input('nome'),
-                'cover' => $coverPath
-            ];
-        
-
-        $series = Series::create($data);
-
-        return response()->json($series, 201);
+        return response()->json($this->seriesRepository->add($request), 201);
     }
 
     public function update(SeriesFormRequest $request, Series $series)
@@ -47,15 +40,9 @@ class SeriesController extends Controller
         return response()->json($series, 200);
     }
 
-    public function show($id)
+    public function show(Series $series)
     {
-        $series = Series::find($id);
-
-        if ($series) {
-            return response()->json($series);
-        }
-
-        return response()->json(['error' => 'Série não encontrada'], 404);
+        return response()->json(['serie' => $series], 200);
     }
 
 }
