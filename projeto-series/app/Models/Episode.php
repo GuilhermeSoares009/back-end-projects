@@ -11,6 +11,9 @@ class Episode extends Model
 
     public $timestamps = false;
     protected $fillable = ['number','watched'];
+    protected $casts = [
+        'watched' => 'boolean'
+    ];
 
     public function season()
     {

@@ -29,13 +29,13 @@ class SeriesController extends Controller
 
     public function show(int $series)
     {
-        $seriesModel = Series::with('seasons.episodes')->find($series);
+        $seriesModel = Series::with('seasons.episodes')->findOrFail($series);
 
         if ($seriesModel === null) {
             return response()->json(['message' => 'Series not found'], 404);
         }
 
-        return response()->json(['serie' => $series], 200);
+        return response()->json(['serie' => $seriesModel], 200);
     }
 
     public function update(SeriesFormRequest $request, Series $series)
