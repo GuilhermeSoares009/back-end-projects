@@ -27,6 +27,11 @@ class SeriesController extends Controller
         return response()->json($this->seriesRepository->add($request), 201);
     }
 
+    public function show(Series $series)
+    {
+        return response()->json(['serie' => $series], 200);
+    }
+
     public function update(SeriesFormRequest $request, Series $series)
     {
         $data = $request->validated();
@@ -40,9 +45,9 @@ class SeriesController extends Controller
         return response()->json($series, 200);
     }
 
-    public function show(Series $series)
-    {
-        return response()->json(['serie' => $series], 200);
+    public function destroy(int $series) {
+        Series::destroy($series);
+        return response()->noContent();
     }
 
 }
