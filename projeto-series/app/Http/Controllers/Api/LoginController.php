@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -17,18 +17,21 @@ class LoginController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $credentials = $request->only('email', 'password');
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['message' => 'Credenciais inválidas!'], 401);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'access_token' => $token,
-            'token_type'   => 'Bearer',
-            'user_id'      => $user->id,
+            'token_type' => 'Bearer',
         ]);
+    }
+
+    public function logout()
+    {
+        auth('api')->logout();
+        return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 }
