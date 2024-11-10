@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\SeriesController;
 use App\Models\Episode;
 use App\Models\Series;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,27 +25,45 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/series', SeriesController::class);
+
+    Route::get('/series/{series}/seasons', function(Series $series) {
+        return $series->episodes;
+    });
+
+    Route::get('/series/{series}/episodes', function(Series $series) {
+        return $series->episodes;
+    });
+
+    Route::get('/episodes', function () {
+        return Episode::all();
+    });
+
+
+    Route::patch('/episodes/{episode}', function (Episode $episode, Request $request) {
+        $episode->watched = $request->watched;
+        $episode->save();
+
+        return $episode;
+    });
+});
+
+/* 
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:api');
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:api'); */
 
-Route::apiResource('/series', SeriesController::class);
+Route::post('/login',function(Request $request) {
+    $credentials = $request->only(['email','password']);
 
-Route::get('/series/{series}/seasons', function(Series $series) {
-    return $series->episodes;
+    if (Auth::attempt($credentials) === false ) {
+        return response()->json('Unathorized', 401);
+    }
+
+    $user = Auth::user();
+    $token = $user->createToken('token');
+
+    return response()->json($token->plainTextToken);
+
 });
 
-Route::get('/series/{series}/episodes', function(Series $series) {
-    return $series->episodes;
-});
-
-Route::get('/episodes', function () {
-    return Episode::all();
-});
-
-
-Route::patch('/episodes/{episode}', function (Episode $episode, Request $request) {
-    $episode->watched = $request->watched;
-    $episode->save();
-
-    return $episode;
-});
