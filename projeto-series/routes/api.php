@@ -49,9 +49,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
-/* 
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:api'); */
 
 Route::post('/login',function(Request $request) {
     $credentials = $request->only(['email','password']);
@@ -61,6 +58,7 @@ Route::post('/login',function(Request $request) {
     }
 
     $user = Auth::user();
+    $user->tokens()->delete();
     $token = $user->createToken('token');
 
     return response()->json($token->plainTextToken);
