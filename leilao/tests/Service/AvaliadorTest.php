@@ -55,7 +55,7 @@ class AvaliadorTest extends TestCase
 
     }
 
-    public function leilaoEmOrdemCrescente() 
+    public static function leilaoEmOrdemCrescente() 
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -71,7 +71,7 @@ class AvaliadorTest extends TestCase
             [$leilao]
         ];
     }
-    public function leilaoEmOrdemDecrescente() 
+    public static function leilaoEmOrdemDecrescente() 
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -87,7 +87,7 @@ class AvaliadorTest extends TestCase
             [$leilao]
         ];
     }
-    public function leilaoEmOrdemAleatoria() 
+    public static function leilaoEmOrdemAleatoria() 
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
