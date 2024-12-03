@@ -64,6 +64,12 @@ class AvaliadorTest extends TestCase
 
     }
 
+    public function testLeilaoVazioNaoPodeSerAvaliado()
+    {
+        $leilao = new Leilao('Fusca Azul');
+        $this->leiloeiro->avalia($leilao);
+    }
+
     /** Dados */
     public static function leilaoEmOrdemCrescente() 
     {
